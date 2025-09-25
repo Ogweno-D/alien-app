@@ -1,3 +1,4 @@
+import 'package:alien_app/features/settings/presentation/settings_page.dart';
 import 'package:flutter/material.dart';
 import '../features/dashboard/presentation/dashboard_page.dart';
 import '../features/gallery/presentation/gallery_page.dart';
@@ -17,6 +18,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold> {
     DashboardPage(),
     GalleryPage(),
     ProfilePage(),
+    SettingsPage(),
   ];
 
   void _onTap(int index) {
@@ -30,19 +32,59 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold> {
     return Scaffold(
       appBar: isMobile
           ? AppBar(
-        title: const Text('Flutter Web App'),
+        title: const Text('Aeolians of Oakwood'),
       )
           : null,
       drawer: isMobile
           ? Drawer(
         child: ListView(
           children: [
-            const DrawerHeader(
-              child: Text("Navigation"),
+             DrawerHeader(
+                  decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                      colors: [
+                      Theme.of(context).colorScheme.primary,
+                  Theme.of(context).colorScheme.secondary,
+                  ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                ),
+              ),
+              child: Center(
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CircleAvatar(
+                  radius: 32,
+                  backgroundColor: Theme.of(context).colorScheme.onPrimary.withOpacity(0.2),
+                    child: Icon(
+                      Icons.account_circle,
+                      size: 48,
+                      color: Theme.of(context).colorScheme.onPrimary,
+                    ),
+                ),
+                const SizedBox(height: 12),
+                  Text(
+                    "Aeolians",
+                      style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                      color: Theme.of(context).colorScheme.onPrimary,
+                      fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  Text(
+                    "Innovating the future",
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: Theme.of(context).colorScheme.onPrimary.withOpacity(0.7),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
             _buildDrawerItem(Icons.dashboard, "Dashboard", 0),
             _buildDrawerItem(Icons.image, "Gallery", 1),
             _buildDrawerItem(Icons.person, "Profile", 2),
+            _buildDrawerItem(Icons.settings, "Settings", 3),
           ],
         ),
       )
@@ -66,6 +108,10 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold> {
                 NavigationRailDestination(
                   icon: Icon(Icons.person),
                   label: Text("Profile"),
+                ),
+                NavigationRailDestination(
+                  icon: Icon(Icons.settings),
+                  label: Text("Settings"),
                 ),
               ],
             ),

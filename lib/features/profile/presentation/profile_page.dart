@@ -30,6 +30,23 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
     setState(() => _loadingLocalData = false);
   }
 
+  InputDecoration _inputDecoration(String label) {
+    return InputDecoration(
+      labelText: label,
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: const BorderSide(color: Colors.grey),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: BorderSide(color: Theme.of(context).primaryColor, width: 2),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(profileFormProvider);
@@ -67,69 +84,80 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
             children: [
               FormBuilderTextField(
                 name: "fullName",
-                decoration: const InputDecoration(labelText: "Full Name"),
+                decoration: _inputDecoration("Full Name"),
                 validator: FormBuilderValidators.compose([
                   FormBuilderValidators.required(),
                   FormBuilderValidators.minLength(3),
                 ]),
               ),
+              const SizedBox(height: 16),
               FormBuilderTextField(
                 name: "email",
-                decoration: const InputDecoration(labelText: "Email"),
+                decoration: _inputDecoration("Email"),
                 validator: FormBuilderValidators.compose([
                   FormBuilderValidators.required(),
                   FormBuilderValidators.email(),
                 ]),
               ),
+              const SizedBox(height: 16),
               FormBuilderDropdown(
                 name: "favoriteCategory",
-                decoration: const InputDecoration(labelText: "Favorite Category"),
+                decoration: _inputDecoration("Favorite Category"),
                 items: ["Nature", "Cars", "Animals", "Technology"]
                     .map((c) => DropdownMenuItem(value: c, child: Text(c)))
                     .toList(),
                 validator: FormBuilderValidators.required(),
               ),
+              const SizedBox(height: 16),
               FormBuilderTextField(
                 name: "password",
-                decoration: const InputDecoration(labelText: "Password"),
+                decoration: _inputDecoration("Password"),
                 obscureText: true,
                 validator: FormBuilderValidators.compose([
                   FormBuilderValidators.required(),
                   FormBuilderValidators.minLength(6),
                 ]),
               ),
+              const SizedBox(height: 16),
               FormBuilderTextField(
                 name: "confirmPassword",
-                decoration: const InputDecoration(labelText: "Confirm Password"),
+                decoration: _inputDecoration("Confirm Password"),
                 obscureText: true,
                 validator: (val) {
-                  final password = _formKey.currentState?.fields["password"]?.value;
+                  final password =
+                      _formKey.currentState?.fields["password"]?.value;
                   if (val != password) {
                     return "Passwords do not match";
                   }
                   return null;
                 },
               ),
-              const SizedBox(height: 24),
-              state.isLoading
-                  ? const Center(child: CircularProgressIndicator())
-                  : ElevatedButton(
-                onPressed: () async {
-                  if (_formKey.currentState?.saveAndValidate() ?? false) {
-                    final data = _formKey.currentState!.value;
+              const SizedBox(height: 32),
+              Center(
+                child: state.isLoading
+                    ? const CircularProgressIndicator()
+                    : SizedBox(
+                  width: 200,
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      if (_formKey.currentState?.saveAndValidate() ??
+                          false) {
+                        final data = _formKey.currentState!.value;
 
-                    /// save locally before submit
-                    await ref
-                        .read(profileFormProvider.notifier)
-                        .saveFormData(data);
+                        /// save locally before submit
+                        await ref
+                            .read(profileFormProvider.notifier)
+                            .saveFormData(data);
 
-                    /// submit online
-                    ref
-                        .read(profileFormProvider.notifier)
-                        .submitForm(data);
-                  }
-                },
-                child: const Text("Submit"),
+                        /// submit online
+                        ref
+                            .read(profileFormProvider.notifier)
+                            .submitForm(data);
+                      }
+                    },
+                    child: const Text("Submit"),
+                  ),
+                ),
               ),
             ],
           ),

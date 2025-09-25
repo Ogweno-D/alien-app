@@ -1,17 +1,15 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../features/dashboard/domain/pixabay_image.dart';
 
 class PixabayService {
   final String baseUrl;
-  final String apiKey;
 
-  PixabayService({required this.baseUrl, required this.apiKey});
+  PixabayService({required this.baseUrl});
 
   Future<List<PixabayImage>> fetchTrendingImages() async {
     final url = Uri.parse(
-      "$baseUrl?key=$apiKey&order=popular&image_type=photo&per_page=30",
+      "$baseUrl?&order=popular&image_type=photo&per_page=30",
     );
     final response = await http.get(url);
 
@@ -26,7 +24,7 @@ class PixabayService {
 
   Future<List<PixabayImage>> searchImages(String query) async {
     final url = Uri.parse(
-      "$baseUrl?key=$apiKey&q=$query&image_type=photo&per_page=30",
+      "$baseUrl?&q=$query&image_type=photo&per_page=30",
     );
     final response = await http.get(url);
 
@@ -40,10 +38,3 @@ class PixabayService {
   }
 }
 
-// Provider for dependency injection
-final pixabayServiceProvider = Provider<PixabayService>((ref) {
-  return PixabayService(
-    baseUrl: "https://pixabay.com/api/",
-    apiKey: "A",
-  );
-});
