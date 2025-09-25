@@ -36,7 +36,7 @@ class _ImageCardState extends State<ImageCard> {
             children: [
               Expanded(
                 child: CachedNetworkImage(
-                  imageUrl: widget.image.previewURL,
+                  imageUrl: widget.image.webformatURL,
                   fit: BoxFit.cover,
                   width: double.infinity,
                   placeholder: (context, url) =>
