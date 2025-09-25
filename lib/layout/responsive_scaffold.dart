@@ -122,14 +122,22 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold> {
   }
 
   Widget _buildDrawerItem(IconData icon, String title, int index) {
-    return ListTile(
-      leading: Icon(icon),
-      title: Text(title),
-      selected: _selectedIndex == index,
-      onTap: () {
-        _onTap(index);
-        Navigator.pop(context); // close drawer
-      },
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      child: ListTile(
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 8.0, right: 4.0),
+          child: Icon(icon, size: 24),
+        ),
+        title: Text(title),
+        selected: _selectedIndex == index,
+        onTap: () {
+          _onTap(index);
+          Navigator.pop(context);
+        },
+        selectedTileColor: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+      ),
     );
   }
+
 }

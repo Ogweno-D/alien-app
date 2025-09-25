@@ -38,8 +38,9 @@ class AppThemes {
 
   static final darkTheme = ThemeData(
     colorScheme: const ColorScheme.dark(
-      primary: Color(0xFF111111),       // darkest grey
+      primary: Color(0xFF111111),
       secondary: Color(0xFFEF4444),
+      tertiary: Color(0xFF14B8A7),
       surface: Color(0xFF111111),
       onPrimary: Colors.white,
       onSecondary: Colors.white,

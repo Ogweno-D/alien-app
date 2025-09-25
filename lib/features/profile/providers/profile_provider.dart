@@ -12,7 +12,7 @@ class ProfileFormNotifier extends StateNotifier<AsyncValue<int?>> {
 
   static const _prefsKey = 'profile_form_data';
 
-  // Save form data locally, excluding passwords
+  // Save form data locally
   Future<void> saveFormData(Map<String, dynamic> data) async {
     final safeData = Map.of(data)
       ..remove('password')
