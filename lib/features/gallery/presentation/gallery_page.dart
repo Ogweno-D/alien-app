@@ -18,19 +18,24 @@ class GalleryPage extends ConsumerWidget {
       children: [
         Padding(
           padding: const EdgeInsets.all(16.0),
-          child: TextField(
-            decoration: InputDecoration(
-              hintText: "Search images...",
-              prefixIcon: const Icon(Icons.search),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
+          child: Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 600),
+              child: TextField(
+                decoration: InputDecoration(
+                  hintText: "Search images...",
+                  prefixIcon: const Icon(Icons.search),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                onSubmitted: (value) {
+                  if (value.isNotEmpty) {
+                    ref.read(searchQueryProvider.notifier).state = value;
+                  }
+                },
               ),
             ),
-            onSubmitted: (value) {
-              if (value.isNotEmpty) {
-                ref.read(searchQueryProvider.notifier).state = value;
-              }
-            },
           ),
         ),
         Expanded(
